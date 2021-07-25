@@ -22,7 +22,7 @@ if APP_MODE == DEV:
     db.drop_all()
     db.create_all()
     creation_date = datetime.today().date()
-    hitman_role = Role(name=HITMAN, creation_date=creation_date, default="DEFAULT")
+    hitman_role = Role(name=HITMAN, creation_date=creation_date, default=DEFAULT)
     db.session.add(hitman_role)
     db.session.commit()
 
