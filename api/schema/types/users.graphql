@@ -1,0 +1,42 @@
+extend type Mutation {
+    login(data: loginInput!): loginPayload!
+    signUp(data: signUpInput!): signUpPayload!
+}
+
+type loginPayload {
+    token: Token
+    user: User
+    success: String!
+    errors: [String!]
+}
+
+type User {
+    role: Role!
+    name: String!
+    email: String!
+    creation_date: Datetime!
+}
+
+type Token {
+    value: String!
+    expirationDate: Datetime!
+}
+
+type signUpPayload {
+    success: Boolean!
+    errors: [String!]
+    hitman: Hitman
+    token: Token
+}
+
+input loginInput {
+    email: String!
+    password: String!
+}
+
+input signUpInput {
+    name: String!
+    email: String!
+    password: String!
+}
+

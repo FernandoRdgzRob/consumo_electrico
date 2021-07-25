@@ -1,0 +1,39 @@
+extend type Query {
+    getJob(input: getJobInput!): Job!
+    getJobs: [Job]!
+}
+
+extend type Mutation {
+    createJob(input: createJobInput!): Job!
+    updateJob(input: updateJobInput!): Job!
+}
+
+type Job {
+    targetName: String!
+    status: Status!
+    assignee: Hitman
+    attemptDate: Datetime
+}
+
+enum Status {
+    COMPLETED
+    FAILED
+    ASSIGNED
+    TO_BE_ASSIGNED
+}
+
+input getJobInput {
+    id: ID!
+}
+
+input updateJobInput {
+    id: ID!
+    targetName: String
+    status: Status
+    assignee: ID
+    attemptDate: Datetime
+}
+
+input createJobInput {
+    targetName: String!
+}

@@ -1,0 +1,12 @@
+extend type Query {
+    getAssigneesFromManager(input: getAssigneesFromManagerInput!): [Hitman!]!
+    promoteHitman(input: promoteHitmanInput!): [Manager!]!
+}
+
+type Boss {
+    name: String!
+}
+
+input promoteHitmanInput {
+    id: ID!
+}

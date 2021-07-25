@@ -1,0 +1,17 @@
+extend type Query {
+    getManagers: [Manager!]!
+    getMyAssignees: [Hitman!]!
+}
+
+type Manager {
+    name: String!
+    id: ID!
+    creation_date: Datetime!
+    discharge_date: Datetime!
+    jobs: [Job!]!
+    assignees: [Hitman!]
+}
+
+input getAssigneesFromManagerInput {
+    id: ID!
+}
