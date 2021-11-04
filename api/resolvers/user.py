@@ -8,6 +8,7 @@ from datetime import datetime
 from operator import itemgetter
 from .token import generate_token
 
+DEFAULT_ROLE = os.getenv("DEFAULT_ROLE")
 SUCCESS = "success"
 ERRORS = "errors"
 USER = "user"
@@ -57,7 +58,7 @@ def sign_up(obj, info, data):
 
     try:
         hashed_password = generate_password_hash(password, method='sha256', salt_length=16)
-        role = Role.query.filter(Role.default == DEFAULT).first()
+        role = Role.query.filter_by(name=DEFAULT_ROLE).first()
         creation_date = datetime.today().date()
         new_user = User(name=name, email=email, creation_date=creation_date, password=hashed_password, role=role)
         new_hitman = Hitman(user=new_user, creation_date=creation_date)

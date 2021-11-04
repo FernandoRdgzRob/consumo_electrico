@@ -1,10 +1,19 @@
 extend type Query {
     getAssigneesFromManager(input: getAssigneesFromManagerInput!): [Hitman!]!
-    promoteHitman(input: promoteHitmanInput!): [Manager!]!
+}
+
+extend type Mutation {
+    promoteHitman(data: promoteHitmanInput!): promoteHitmanPayload!
 }
 
 type Boss {
     name: String!
+}
+
+type promoteHitmanPayload {
+    success: Boolean!
+    errors: [String!]
+    manager: Manager
 }
 
 input promoteHitmanInput {

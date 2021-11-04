@@ -1,5 +1,5 @@
 from api.models.hitman import Hitman
-from .utils.authorization import check_is_hitman
+from .utils.authorization import check_is_boss_or_manager
 
 SUCCESS = "success"
 ERRORS = "errors"
@@ -9,11 +9,11 @@ CONTEXT = "context"
 IS_NOT_HITMAN_ERROR = "User provided must have hitman role"
 
 
-def get_hitmen(obj, info):
+def get_hitmen(_obj, info):
     try:
-        is_hitman = check_is_hitman(request=info.context)
+        [is_allowed, _user] = check_is_boss_or_manager(request=info.context)
 
-        if is_hitman:
+        if is_allowed:
             hitmen_from_db = Hitman.query.all()
             hitmen = map(lambda hitman: hitman.to_dict(), hitmen_from_db)
             payload = {

@@ -6,7 +6,7 @@ extend type Mutation {
 type loginPayload {
     token: Token
     user: User
-    success: String!
+    success: Boolean!
     errors: [String!]
 }
 

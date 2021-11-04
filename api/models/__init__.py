@@ -5,3 +5,4 @@ import api.models.authorization
 import api.models.module
 import api.models.manager
 import api.models.user
+import api.models.hit

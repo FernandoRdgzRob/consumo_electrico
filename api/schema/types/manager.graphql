@@ -4,11 +4,9 @@ extend type Query {
 }
 
 type Manager {
-    name: String!
     id: ID!
-    creation_date: Datetime!
-    discharge_date: Datetime!
-    jobs: [Job!]!
+    user: User!
+    hits_created: [Hit!]!
     assignees: [Hitman!]
 }
 

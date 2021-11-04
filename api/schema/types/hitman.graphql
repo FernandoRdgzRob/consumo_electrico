@@ -12,11 +12,11 @@ type Hitman {
     role: Role!
     creation_date: Datetime!
     discharge_date: Datetime
-    jobs: [Job!]!
+    hits: [Hit!]!
 }
 
 type getHitmenPayload {
-    success: String!,
+    success: Boolean!,
     errors: [String!]
     hitmen: [Hitman!]
 }
