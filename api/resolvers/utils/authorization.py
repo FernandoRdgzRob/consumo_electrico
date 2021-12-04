@@ -1,104 +1,48 @@
 import jwt
 import os
 from api.models.user import User
-from api.models.hitman import Hitman
+from ...models.authorization import Authorization
+from ...models.module import Module
 
 ID = "public_id"
 APP_SECRET = os.getenv("APP_SECRET")
-HITMAN_ROLE = os.getenv("HITMAN_ROLE")
-MANAGER_ROLE = os.getenv("MANAGER_ROLE")
-BOSS_ROLE = os.getenv("BOSS_ROLE")
+
+# The context of the app is the raw request made to the server
 
 
-def check_is_hitman(request):
-    try:
-        if "x-access-token" in request.headers:
-            token = request.headers["x-access-token"]
-            token_data = jwt.decode(token, APP_SECRET)
+def get_user_from_token(request):
+    if "x-access-token" in request.headers:
+        token = request.headers["x-access-token"]
+        token_data = jwt.decode(token, APP_SECRET)
+        user = User.query.filter_by(id=token_data[ID]).first()
 
-            user = User.filter_by(id=token_data[ID]).first()
-
-            return user.role.name == HITMAN_ROLE
-
-        return False
-    except Exception as error:
-        print(error)
-        return False
+        return user
+    else:
+        return None
 
 
-def check_can_get_hits(request):
-    try:
-        if "x-access-token" in request.headers:
-            token = request.headers["x-access-token"]
-            token_data = jwt.decode(token, APP_SECRET)
-            user = User.query.filter_by(id=token_data[ID]).first()
+def check_single_ownership_of_record(user_to_check, record_to_check):
+    if record_to_check is not None:
+        user_from_record = record_to_check.user
 
-            is_allowed = user.role.name == MANAGER_ROLE or user.role.name == BOSS_ROLE
+        if user_from_record is not None and user_from_record == user_to_check:
+            return True
 
-            return [is_allowed, user, user.role.name]
-
-        return [False, None, None]
-    except Exception as error:
-        print(error)
-        return [False, None, None]
+    return False
 
 
-def check_can_get_hits_assigned_to_itself(request):
-    try:
-        if "x-access-token" in request.headers:
-            token = request.headers["x-access-token"]
-            token_data = jwt.decode(token, APP_SECRET)
-            user = User.query.filter_by(id=token_data[ID]).first()
+def check_if_user_is_allowed(role, module_name, permit):
+    if os.getenv("APP_MODE") == "DEV" or os.getenv("APP_MODE") == "DEV_NO_DEL":
+        return True
 
-            is_user_allowed = user.role.name == MANAGER_ROLE or user.role.name == HITMAN_ROLE
+    module = Module.query.filter_by(name=module_name).first()
 
-            if is_user_allowed:
-                hitman = Hitman.query.filter_by(user=user).first()
+    if module is not None:
+        authorization = Authorization.query.filter_by(
+            module=module, role=role, permit=permit
+        ).first()
 
-                if hitman is not None:
-                    return [is_user_allowed, hitman]
+        if authorization is not None:
+            return True
 
-            return [is_user_allowed, None]
-
-        return [False, None]
-    except Exception as error:
-        print(error)
-        return [False, None]
-
-
-def check_can_create_hit(request):
-    return check_is_boss_or_manager(request)
-
-
-def check_is_boss(request):
-    try:
-        if "x-access-token" in request.headers:
-            token = request.headers["x-access-token"]
-            token_data = jwt.decode(token, APP_SECRET)
-            user = User.query.filter_by(id=token_data[ID]).first()
-
-            is_user_allowed = user.role.name == BOSS_ROLE
-
-            return [is_user_allowed, user]
-
-        return [False, None]
-    except Exception as error:
-        print(error)
-        return [False, None]
-
-
-def check_is_boss_or_manager(request):
-    try:
-        if "x-access-token" in request.headers:
-            token = request.headers["x-access-token"]
-            token_data = jwt.decode(token, APP_SECRET)
-            user = User.query.filter_by(id=token_data[ID]).first()
-
-            is_user_allowed = user.role.name == MANAGER_ROLE or user.role.name == BOSS_ROLE
-
-            return [is_user_allowed, user]
-
-        return [False, None]
-    except Exception as error:
-        print(error)
-        return [False, None]
+    return False

@@ -15,9 +15,10 @@ def generate_token(user_id):
     if user_id is None:
         return
 
-    expiration_date = datetime.datetime.utcnow() + datetime.timedelta(minutes=TOKEN_EXPIRATION_SPAN)
+    expiration_date = datetime.datetime.utcnow() + datetime.timedelta(
+        minutes=TOKEN_EXPIRATION_SPAN
+    )
 
-    token = jwt.encode({ID: user_id, EXPIRATION_DATE: expiration_date},
-                       APP_SECRET)
+    token = jwt.encode({ID: user_id, EXPIRATION_DATE: expiration_date}, APP_SECRET)
 
-    return [token.decode('UTF-8'), expiration_date]
+    return [token.decode("UTF-8"), expiration_date]

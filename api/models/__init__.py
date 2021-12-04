@@ -1,8 +1,10 @@
-import api.models.hitman
-import api.models.role
-import api.models.permit
-import api.models.authorization
-import api.models.module
-import api.models.manager
-import api.models.user
-import api.models.hit
+from . import (
+    device,
+    consumption,
+    role,
+    authorization,
+    module,
+    manager,
+    user,
+    optimized_consumption,
+)

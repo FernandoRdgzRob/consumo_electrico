@@ -9,13 +9,13 @@ DEFAULT_MAX_LENGTH = 7
 
 class Role(db.Model):
     id = db.Column(db.Integer, primary_key=True, autoincrement=True)
-    name = db.Column(db.String)
+    name = db.Column(db.String(NAME_MAX_LENGTH), nullable=False, unique=True)
     users = db.relationship("User", back_populates="role")
     creation_date = db.Column(db.Date)
     authorizations = db.relationship("Authorization", back_populates="role")
     default = db.Column(db.String(DEFAULT_MAX_LENGTH), unique=True)
 
-    @db.validates('name')
+    @db.validates("name")
     def validate_name(self, _key, value):
         assert value is not None
         assert isinstance(value, str)
@@ -27,5 +27,5 @@ class Role(db.Model):
         return {
             "id": self.id,
             "name": self.name,
-            "creation_date": str(self.creation_date.strftime('%d-%m-%Y')),
+            "creation_date": str(self.creation_date.strftime("%d-%m-%Y")),
         }

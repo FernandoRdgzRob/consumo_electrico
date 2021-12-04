@@ -1,5 +1,5 @@
 type Role {
     id: ID!
-    creationDate: Datetime!
+    creation_date: Datetime!
     name: String!
 }

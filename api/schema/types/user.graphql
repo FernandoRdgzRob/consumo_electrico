@@ -11,6 +11,7 @@ type loginPayload {
 }
 
 type User {
+    id: ID!
     role: Role!
     name: String!
     email: String!
@@ -25,7 +26,6 @@ type Token {
 type signUpPayload {
     success: Boolean!
     errors: [String!]
-    hitman: Hitman
     token: Token
 }
 

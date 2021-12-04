@@ -1,0 +1,30 @@
+extend type Query {
+    getModules: GetModulesPayload!
+}
+
+extend type Mutation {
+    upsertModule(data: UpsertModuleInput!): ModulePayload!
+}
+
+type ModulePayload {
+    module: Module
+    success: Boolean!
+    errors: [String!]
+}
+
+type GetModulesPayload {
+    modules: [Module!]
+    success: Boolean!
+    errors: [String!]
+}
+
+type Module {
+    id: ID!
+    name: String!
+    creation_date: Datetime!
+}
+
+input UpsertModuleInput {
+    module_id: ID
+    name: String!
+}

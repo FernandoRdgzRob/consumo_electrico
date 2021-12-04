@@ -1,19 +1,42 @@
 from ariadne import ObjectType, ScalarType
-from api.resolvers.hitman import get_hitmen
-from api.resolvers.user import sign_up, login
-from api.resolvers.boss import promote_hitman
-from api.resolvers.hit import get_hits, get_hits_assigned_to_me, create_hit
-from api.resolvers.datetime import serialize_datetime
+from .user import sign_up, login
+from .module import get_modules, upsert_module
+from .device import get_devices_from_user, upsert_device
+from .datetime import serialize_datetime
+from .device import get_devices_from_user
+from .consumption import get_optimized_consumptions_from_device, create_consumptions
+from .authorization import create_authorizations, get_my_authorizations
 
-datetime_scalar = ScalarType('Datetime')
+datetime_scalar = ScalarType("Datetime")
+query = ObjectType("Query")
+mutation = ObjectType("Mutation")
 
-query = ObjectType('Query')
-mutation = ObjectType('Mutation')
-query.set_field('getHitmen', get_hitmen)
-query.set_field('getHits', get_hits)
-query.set_field('getHitsAssignedToMe', get_hits_assigned_to_me)
-mutation.set_field('signUp', sign_up)
-mutation.set_field('login', login)
-mutation.set_field('createHit', create_hit)
-mutation.set_field('promoteHitman', promote_hitman)
 datetime_scalar.serializer(serialize_datetime)
+
+mutation_mapper = [
+    {"key": "signUp", "function": sign_up},
+    {"key": "login", "function": login},
+    {"key": "upsertDevice", "function": upsert_device},
+    {"key": "createConsumptions", "function": create_consumptions},
+    {"key": "createAuthorizations", "function": create_authorizations},
+    {"key": "upsertModule", "function": upsert_module},
+]
+
+query_mapper = [
+    {"key": "getDevicesFromUser", "function": get_devices_from_user},
+    {
+        "key": "getOptimizedConsumptionsFromDevice",
+        "function": get_optimized_consumptions_from_device,
+    },
+    {"key": "getModules", "function": get_modules},
+    {"key": "getMyAuthorizations", "function": get_my_authorizations},
+]
+
+
+def map_to_graphql(mapper, graphql_object):
+    for item in mapper:
+        graphql_object.set_field(item["key"], item["function"])
+
+
+map_to_graphql(mapper=mutation_mapper, graphql_object=mutation)
+map_to_graphql(mapper=query_mapper, graphql_object=query)

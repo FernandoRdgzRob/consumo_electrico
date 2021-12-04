@@ -1,0 +1,62 @@
+extend type Mutation {
+    createAuthorizations(data: CreateAuthorizationsInput!): CreateAuthorizationsPayload!
+    deleteAuthorization(data: DeleteAuthorizationInput!): DeleteAuthorizationPayload!
+}
+
+extend type Query {
+    getMyAuthorizations: GetMyAuthorizationsPayload!
+}
+
+type GetMyAuthorizationsPayload {
+    authorizations: [Authorization!]
+    errors: [String!]
+    success: Boolean!
+}
+
+type AuthorizationPayload {
+    authorization: Authorization
+    success: Boolean!
+    errors: [String!]
+}
+
+type DeleteAuthorizationPayload {
+    success: Boolean!
+    errors: [String!]
+}
+
+type CreateAuthorizationsPayload {
+    authorizations: [Authorization!]
+    errors: [String!]
+    success: Boolean!
+}
+
+type Authorization {
+    id: ID!
+    creation_date: Datetime!
+    role: Role!
+    module: Module!
+    permit: Permit!
+}
+
+input CreateAuthorizationInput {
+    role_id: ID!
+    module_id: ID!
+    permit: [Permit!]!
+}
+
+input CreateAuthorizationsInput {
+    roles_ids: [ID!]!
+    permits: [Permit!]!
+    module_id: ID!
+}
+
+input DeleteAuthorizationInput {
+    authorization_id: ID!
+}
+
+enum Permit {
+    READ
+    CREATE
+    UPDATE
+    DELETE
+}

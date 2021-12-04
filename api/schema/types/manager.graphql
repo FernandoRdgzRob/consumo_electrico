@@ -1,13 +1,10 @@
 extend type Query {
     getManagers: [Manager!]!
-    getMyAssignees: [Hitman!]!
 }
 
 type Manager {
     id: ID!
     user: User!
-    hits_created: [Hit!]!
-    assignees: [Hitman!]
 }
 
 input getAssigneesFromManagerInput {

@@ -1,0 +1,57 @@
+extend type Query  {
+    getOptimizedConsumptionsFromDevice(data: GetOptimizedConsumptionsFromDeviceInput!): GetOptimizedConsumptionsFromDevicePayload!
+    getConsumptionsFromDevice(data: GetConsumptionsFromDeviceInput!): GetConsumptionsFromDevicePayload!
+}
+
+extend type Mutation {
+    createConsumptions(data: CreateConsumptionsInput!): CreateConsumptionsPayload!
+}
+
+
+type GetConsumptionsFromDevicePayload {
+    consumptions: [Consumption!]
+    errors: [String!]
+    success: Boolean
+}
+
+type CreateConsumptionsPayload {
+    consumptions: [Consumption!]
+    errors: [String!]
+    success: Boolean
+}
+
+type GetOptimizedConsumptionsFromDevicePayload {
+    optimized_consumptions: [Consumption!]
+    real_consumptions: [Consumption!]
+    errors: [String!]
+    success: Boolean!
+}
+
+type Consumption {
+    id: ID!
+    device: Device!
+    consumption_datetime: Datetime!
+    consumption_amount: Float!
+}
+
+input RawConsumption {
+    consumption_datetime: Datetime!
+    consumption_amount: Float!
+}
+
+input CreateConsumptionsInput {
+    device_id: ID
+    consumptions: [RawConsumption!]!
+}
+
+input GetOptimizedConsumptionsFromDeviceInput {
+    device_id: ID!
+    from: Datetime!
+    to: Datetime!
+}
+
+input GetConsumptionsFromDeviceInput {
+    device_id: ID!
+    from: Datetime!
+    to: Datetime!
+}

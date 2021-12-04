@@ -5,6 +5,11 @@ from flask_sqlalchemy import SQLAlchemy
 app = Flask(__name__)
 CORS(app)
 
-app.config["SQLALCHEMY_DATABASE_URI"] = "postgresql://postgres:LuisEdgar1@localhost/hitmen"
+# Use this file to change the uri from the database that is going to be used across the system
+
+app.config[
+    "SQLALCHEMY_DATABASE_URI"
+] = "postgresql://postgres:LuisEdgar1@localhost/electrical_consumption"
 app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
+
 db = SQLAlchemy(app)
