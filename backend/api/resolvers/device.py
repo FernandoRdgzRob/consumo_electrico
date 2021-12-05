@@ -1,15 +1,17 @@
+from api import db
 from ..models.device import Device
+from ..models.consumption import Consumption
 
 from .utils.authorization import get_user_from_token, check_if_user_is_allowed
 from .utils.basic_requests import (
     handle_create_instance,
     handle_update_instance,
 )
+from .utils.consumptions_generator import consumptions_dictionary, generate_consumptions
 from ..exceptions.not_found import UserNotFound
 from ..exceptions.not_allowed import UserNotAllowed
 from ..const import READ
 import os
-
 
 def get_devices_from_user(_obj, info):
     module_name = os.path.basename(__file__)[:-3]
@@ -89,6 +91,14 @@ def upsert_device(_obj, info, data):
                     desired_keys=desired_keys,
                     model=Device,
                 )
+
+                if consumptions_dictionary.get(device.name):
+                    consumptions = generate_consumptions(device_name=device.name, days=2)
+                    for consumption_data in consumptions:
+                        consumption_data["device"] = device
+                        consumption = Consumption(fields_map=consumption_data)
+                        db.session.add(consumption)
+                    db.session.commit()
 
             payload = {"device": device, "success": True}
         else:

@@ -74,34 +74,34 @@ if APP_MODE == "DEV" or APP_MODE == "DEV_WITH_AUTH":
     sign_up(
         None,
         None,
-        {"name": "Diego Flores", "password": "12345", "email": "diegoflores@gmail.com"},
+        {"name": "Blanca Nydia Pérez", "password": "12341234", "email": "bnydiap@gmail.com"},
     )
 
-    user = User.query.all()[0]
-    device_data = {
-        "name": "Calefactor",
-        "user": user,
-        "min_c": 8,
-        "average_consumption": 14,
-        "max_c": 20,
-        "freq_time": 0.43,
-        "turn_off": False,
-        "sort": "U",
-        "metering": 3,
-    }
+    # user = User.query.all()[0]
+    # device_data = {
+    #     "name": "Calefactor",
+    #     "user": user,
+    #     "min_c": 8,
+    #     "average_consumption": 14,
+    #     "max_c": 20,
+    #     "freq_time": 0.43,
+    #     "turn_off": False,
+    #     "sort": "U",
+    #     "metering": 3,
+    # }
 
-    heater_device = Device(fields_map=device_data)
+    # heater_device = Device(fields_map=device_data)
 
-    consumption_data = {
-        "device": heater_device,
-        "consumption_amount": 1190.78,
-        "consumption_datetime": datetime(2021, 12, 3, 15, 0, 0),
-    }
+    # consumption_data = {
+    #     "device": heater_device,
+    #     "consumption_amount": 1190.78,
+    #     "consumption_datetime": datetime(2021, 12, 3, 15, 0, 0),
+    # }
 
-    sample_consumption = Consumption(fields_map=consumption_data)
+    # sample_consumption = Consumption(fields_map=consumption_data)
 
-    db.session.add(heater_device)
-    db.session.add(sample_consumption)
+    # db.session.add(heater_device)
+    # db.session.add(sample_consumption)
     db.session.commit()
 
 
