@@ -9,7 +9,7 @@ CORS(app)
 
 app.config[
     "SQLALCHEMY_DATABASE_URI"
-] = "postgresql://postgres:LuisEdgar1@localhost/electrical_consumption"
+] = "postgresql://ec_user:12341234@localhost/electrical_consumption"
 app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
 
 db = SQLAlchemy(app)

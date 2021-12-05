@@ -4,7 +4,7 @@ from .module import get_modules, upsert_module
 from .device import get_devices_from_user, upsert_device
 from .datetime import serialize_datetime
 from .device import get_devices_from_user
-from .consumption import get_optimized_consumptions_from_device, create_consumptions
+from .consumption import get_optimized_consumptions_from_device, create_consumptions, get_consumptions_from_device
 from .authorization import create_authorizations, get_my_authorizations
 
 datetime_scalar = ScalarType("Datetime")
@@ -29,6 +29,7 @@ query_mapper = [
         "function": get_optimized_consumptions_from_device,
     },
     {"key": "getModules", "function": get_modules},
+    {"key": "getConsumptionsFromDevice", "function": get_consumptions_from_device},
     {"key": "getMyAuthorizations", "function": get_my_authorizations},
 ]
 

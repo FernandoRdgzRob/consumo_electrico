@@ -12,20 +12,23 @@ from ..const import READ, CREATE
 from .utils.basic_logic import verify_dict_has_desired_keys
 from .utils.authorization import check_if_user_is_allowed
 from api import db
+from ..heuristic.heuristic import execute_heuristic
 import os
-
+import sys
+import json
 
 def get_optimized_consumption(device, real_consumption):
+    optimized_consumption = execute_heuristic(device=device, real_consumption=real_consumption)
+
     return {
         "consumption_datetime": real_consumption.consumption_datetime,
-        "consumption_amount": 34.2,
+        "consumption_amount": optimized_consumption['consumption_amount'],
         "device": device,
     }
 
 
 def get_consumptions_from_device(_obj, info, data):
     module_name = os.path.basename(__file__)[:-3]
-
     try:
         user = get_user_from_token(request=info.context)
 
