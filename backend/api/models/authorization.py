@@ -11,7 +11,7 @@ class Authorization(db.Model):
     id = db.Column(db.Integer, primary_key=True, autoincrement=True)
     creation_date = db.Column(db.Date, nullable=False)
     role_id = db.Column(db.Integer, db.ForeignKey("role.id"), nullable=False)
-    permit = db.Column(db.String, nullable=False)
+    permit = db.Column(db.String(255), nullable=False)
     role = db.relationship("Role", back_populates="authorizations")
     module_id = db.Column(db.Integer, db.ForeignKey("module.id"), nullable=False)
     module = db.relationship("Module", back_populates="authorizations")

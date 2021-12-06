@@ -116,7 +116,7 @@ def graphql_server():
     success, result = graphql_sync(
         schema,
         data,
-        validation_rules=[cost_validator(MAXIMUM_COST)],
+        # validation_rules=[cost_validator(MAXIMUM_COST)],
         context_value=request,
         debug=app.debug,
     )

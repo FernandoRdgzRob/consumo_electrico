@@ -1,25 +1,24 @@
-import logo from './logo.svg';
-import './App.css';
+import { CssBaseline } from '@mui/material'
+import { Routes, Route } from 'react-router-dom'
+import Dashboard from './components/Dashboard/Dashboard'
+import Devices from './components/Devices/Devices'
+// import CustomChart from './components/Chart/Chart'
+// import Devices from './components/Devices/Devices'
+import ResponsiveDrawer from './components/Drawer/ResponsiveDrawer'
+import Login from './components/Login/Login'
+import DateAdapter from '@mui/lab/AdapterDateFns'
 
-function App() {
+function App () {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+    <ResponsiveDrawer>
+      <CssBaseline />
+      <Routes>
+        <Route path='/' element={<Login />} />
+        <Route path='dashboard' element={<Dashboard />} />
+        <Route path='dispositivos' element={<Devices />} />
+      </Routes>
+    </ResponsiveDrawer>
+  )
 }
 
-export default App;
+export default App
