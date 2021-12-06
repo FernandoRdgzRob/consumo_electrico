@@ -9,14 +9,15 @@ import {
 import ConsumptionsGraph from './ConsumptionsGraph'
 import { Typography } from '@mui/material'
 import DashboardFilters from './DashboardFilters'
+import CircularProgress from '@mui/material/CircularProgress'
 
 const Dashboard = () => {
   const { loading, error, data } = useQuery(GET_DEVICES_FROM_USER)
 
   if (loading) {
     return (
-      <div>
-        Cargando...
+      <div style={{ display: 'flex', flex: 1, justifyContent: 'center', marginTop: 150 }}>
+        <CircularProgress />
       </div>
     )
   }
@@ -140,7 +141,9 @@ const DeviceConsumptionInformation = (props) => {
         handleConsumptionChange={handleConsumptionChange}
       />
       {loadingGraph &&
-        <div>Cargando...</div>}
+        <div style={{ display: 'flex', flex: 1, justifyContent: 'center', marginTop: 150 }}>
+          <CircularProgress />
+        </div>}
       {!loadingGraph && noConsumptions &&
         <Typography variant='h5'>No hay consumos de este dispositivo en el rango de fecha seleccionado</Typography>}
       {!loadingGraph && !noConsumptions &&

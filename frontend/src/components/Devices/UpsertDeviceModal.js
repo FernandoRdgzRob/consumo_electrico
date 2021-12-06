@@ -11,7 +11,7 @@ import { GET_DEVICES_FROM_USER } from '../Queries/Queries'
 import { useSnackbar } from 'notistack'
 
 const UpsertDeviceModal = ({ open, setOpen }) => {
-  const { control, handleSubmit } = useForm()
+  const { control, handleSubmit, reset } = useForm({ shouldUnregister: true })
   const { enqueueSnackbar } = useSnackbar()
 
   const handleClose = () => {
@@ -19,6 +19,7 @@ const UpsertDeviceModal = ({ open, setOpen }) => {
   }
 
   const handleOnCompleted = (data) => {
+    reset()
     setOpen(false)
     enqueueSnackbar('Dispositivo agregado manera exitosa', { variant: 'success' })
   }
@@ -52,7 +53,8 @@ const UpsertDeviceModal = ({ open, setOpen }) => {
       rules: { required: 'El nombre del dispositivo es requerido' },
       label: 'Nombre del dispositivo',
       type: 'text',
-      placeholder: 'Ventilador de la sala'
+      placeholder: 'Ventilador de la sala',
+      defaultValue: ''
     }),
     type: useCustomController({
       name: 'type',
@@ -71,7 +73,8 @@ const UpsertDeviceModal = ({ open, setOpen }) => {
         { value: 'Lavadora', label: 'Lavadora' },
         { value: 'Refrigerador', label: 'Refrigerador' },
         { value: 'Foco', label: 'Foco' }
-      ]
+      ],
+      defaultValue: null
     })
   }
 
