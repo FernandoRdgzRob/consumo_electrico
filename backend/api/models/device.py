@@ -12,6 +12,7 @@ class Device(db.Model):
     id = db.Column(db.Integer, primary_key=True, autoincrement=True)
     creation_date = db.Column(db.Date, nullable=False)
     name = db.Column(db.String(NAME_MAX_LENGTH), nullable=False, unique=True)
+    type = db.Column(db.String(NAME_MAX_LENGTH), nullable=False, unique=False)
     min_c = db.Column(db.Float, default=0.0)
     average_consumption = db.Column(db.Float, default=0.0)
     max_c = db.Column(db.Float, default=0.0)
@@ -37,6 +38,7 @@ class Device(db.Model):
         if fields_map is not None:
             self.creation_date = datetime.today().date()
             self.name = fields_map.get("name")
+            self.type = fields_map.get("type")
             self.user = fields_map.get("user")
             self.min_c = fields_map.get("min_c")
             self.average_consumption = fields_map.get("average_consumption")

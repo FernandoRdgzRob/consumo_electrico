@@ -10,6 +10,7 @@ extend type Mutation {
 type Device {
     id: ID!
     name: String!
+    type: String!
     user: User!
     creation_date: Datetime!
     min_c: Float!
@@ -42,6 +43,7 @@ type GetDevicesFromUserPayload {
 input UpsertDeviceInput {
     device_id: ID
     name: String
+    type: String
     min_c: Float!
     average_consumption: Float!
     max_c: Float!

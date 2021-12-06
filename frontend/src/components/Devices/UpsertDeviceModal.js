@@ -4,19 +4,56 @@ import DialogContent from '@mui/material/DialogContent'
 import { CustomInput, useCustomController } from '../Utils/utils'
 import { useForm } from 'react-hook-form'
 import { Typography } from '@mui/material'
+import { devicesInformation } from './devicesInformation'
+import { UPSERT_DEVICE } from '../Mutations/Mutations'
+import { useMutation } from '@apollo/client'
+import { GET_DEVICES_FROM_USER } from '../Queries/Queries'
+import { useSnackbar } from 'notistack'
 
 const UpsertDeviceModal = ({ open, setOpen }) => {
   const { control, handleSubmit } = useForm()
+  const { enqueueSnackbar } = useSnackbar()
 
   const handleClose = () => {
     setOpen(false)
   }
 
+  const handleOnCompleted = (data) => {
+    setOpen(false)
+    enqueueSnackbar('Dispositivo agregado manera exitosa', { variant: 'success' })
+  }
+
+  const handleError = (error) => {
+    console.log(error)
+  }
+
+  const [upsertDevice] = useMutation(UPSERT_DEVICE, {
+    onCompleted: handleOnCompleted,
+    onError: handleError,
+    refetchQueries: [
+      { query: GET_DEVICES_FROM_USER }
+    ],
+    awaitRefetchQueries: true
+  })
+
   const onSubmit = (data) => {
-    console.log({ data })
+    const deviceMetrics = devicesInformation[data.type.toLowerCase()]
+    const input = {
+      ...deviceMetrics,
+      ...data
+    }
+    upsertDevice({ variables: { data: input } })
   }
 
   const form = {
+    name: useCustomController({
+      name: 'name',
+      control,
+      rules: { required: 'El nombre del dispositivo es requerido' },
+      label: 'Nombre del dispositivo',
+      type: 'text',
+      placeholder: 'Ventilador de la sala'
+    }),
     type: useCustomController({
       name: 'type',
       control,
@@ -24,26 +61,18 @@ const UpsertDeviceModal = ({ open, setOpen }) => {
       label: 'Dispositivo',
       type: 'select',
       options: [
-        { value: 'UI', label: 'Calefactor' },
-        { value: 'UX', label: 'Aire' },
-        { value: 'Enhancement', label: 'Ventilador' },
-        { value: 'Bug', label: 'Secadora' },
-        { value: 'Feature', label: 'Lavatrastes' },
-        { value: 'Feature', label: 'Estufa' },
-        { value: 'Feature', label: 'Microondas' },
-        { value: 'Feature', label: 'Lavadora' },
-        { value: 'Feature', label: 'Refrigerador' },
-        { value: 'Feature', label: 'Foco' }
+        { value: 'Calefactor', label: 'Calefactor' },
+        { value: 'Aire', label: 'Aire' },
+        { value: 'Ventilador', label: 'Ventilador' },
+        { value: 'Secadora', label: 'Secadora' },
+        { value: 'Lavatrastes', label: 'Lavatrastes' },
+        { value: 'Estufa', label: 'Estufa' },
+        { value: 'Microondas', label: 'Microondas' },
+        { value: 'Lavadora', label: 'Lavadora' },
+        { value: 'Refrigerador', label: 'Refrigerador' },
+        { value: 'Foco', label: 'Foco' }
       ]
     })
-    // name: useCustomController({
-    //   name: 'name',
-    //   control,
-    //   rules: { required: 'El nombre del dispositivo es requerido' },
-    //   label: 'Nombre del dispositivo',
-    //   type: 'text',
-    //   placeholder: 'Ventilador de la sala'
-    // })
   }
 
   return (

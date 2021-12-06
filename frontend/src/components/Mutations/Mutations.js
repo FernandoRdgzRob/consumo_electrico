@@ -14,3 +14,15 @@ export const LOGIN = gql`
     }
   }
 `
+
+export const UPSERT_DEVICE = gql`
+  mutation UpsertDevice($data: UpsertDeviceInput!) {
+    upsertDevice(data: $data) {
+      device {
+        name
+      }
+      errors
+      success
+    }
+  }
+`

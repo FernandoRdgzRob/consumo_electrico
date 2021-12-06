@@ -73,6 +73,7 @@ def upsert_device(_obj, info, data):
                 # Fields that are mandatory to create a new device
                 desired_keys = {
                     "name",
+                    "type",
                     "min_c",
                     "max_c",
                     "average_consumption",
@@ -92,8 +93,8 @@ def upsert_device(_obj, info, data):
                     model=Device,
                 )
 
-                if consumptions_dictionary.get(device.name):
-                    consumptions = generate_consumptions(device_name=device.name, days=2)
+                if consumptions_dictionary.get(device.type):
+                    consumptions = generate_consumptions(device_name=device.type, days=2)
                     for consumption_data in consumptions:
                         consumption_data["device"] = device
                         consumption = Consumption(fields_map=consumption_data)

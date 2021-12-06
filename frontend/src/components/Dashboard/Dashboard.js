@@ -22,7 +22,7 @@ const Dashboard = () => {
   }
 
   if (error) {
-    console.log({ error })
+    console.log(error)
   }
 
   let devices = []

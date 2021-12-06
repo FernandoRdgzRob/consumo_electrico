@@ -38,10 +38,7 @@ const DashboardFilters = (props) => {
           label='Desde:'
           value={minDate}
           onChange={handleMinDateChange}
-          renderInput={(params) => {
-            console.log({ params })
-            return <TextField fullWidth {...params} />
-          }}
+          renderInput={(params) => <TextField fullWidth {...params} />}
           inputFormat='dd/MM/yyyy HH:mm'
           ampm={false}
         />

@@ -7,6 +7,7 @@ import { ApolloClient, createHttpLink, InMemoryCache, ApolloProvider } from '@ap
 import { setContext } from '@apollo/client/link/context'
 import { LocalizationProvider } from '@mui/lab'
 import DateAdapter from '@mui/lab/AdapterDateFns'
+import { SnackbarProvider } from 'notistack'
 
 const httpLink = createHttpLink({
   uri: 'http://localhost:5000/graphql'
@@ -34,7 +35,9 @@ ReactDOM.render(
     <BrowserRouter>
       <ApolloProvider client={client}>
         <LocalizationProvider dateAdapter={DateAdapter}>
-          <App />
+          <SnackbarProvider>
+            <App />
+          </SnackbarProvider>
         </LocalizationProvider>
       </ApolloProvider>
     </BrowserRouter>

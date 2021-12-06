@@ -9,28 +9,32 @@ import { useMutation } from '@apollo/client'
 import { LOGIN } from '../Mutations/Mutations'
 // React Router
 import { useNavigate } from 'react-router-dom'
+import { useSnackbar } from 'notistack'
 
 const Login = (props) => {
   const { control, handleSubmit } = useForm()
   const navigate = useNavigate()
+  const { enqueueSnackbar } = useSnackbar()
 
   const onSubmit = (data) => {
     login({ variables: { data } })
   }
 
   const handleOnCompleted = (data) => {
-    const token = data?.login?.token?.value
-    const userName = data?.login?.user?.name
-    localStorage.setItem('token', token)
-    localStorage.setItem('user-name', userName)
-    navigate('/dashboard')
+    if (data.login.success) {
+      const token = data?.login?.token?.value
+      localStorage.setItem('token', token)
+      navigate('/dashboard')
+    } else {
+      enqueueSnackbar('Las credenciales no son correctas. Intenta nuevamente.', { variant: 'error' })
+    }
   }
 
   const handleError = (error) => {
-    console.log({ error })
+    console.log(error)
   }
 
-  const [login, { loading, error }] = useMutation(LOGIN, {
+  const [login] = useMutation(LOGIN, {
     onCompleted: handleOnCompleted,
     onError: handleError
   })

@@ -7,6 +7,7 @@ export const GET_DEVICES_FROM_USER = gql`
         name
         id
         creation_date
+        type
       }
       errors
     }

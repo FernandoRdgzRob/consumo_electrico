@@ -24,7 +24,6 @@ export const CustomInput = ({ form, handleSubmit, onSubmit, button, onCancel }) 
         spacing={3}
       >
         {formArray.map((field, index) => {
-          console.log(form[field])
           const {
             field: { ref, value, ...inputProps },
             fieldState: { error },

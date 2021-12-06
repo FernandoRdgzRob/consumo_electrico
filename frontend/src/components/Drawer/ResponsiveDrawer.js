@@ -14,7 +14,8 @@ import Typography from '@mui/material/Typography'
 import HomeIcon from '@mui/icons-material/Home'
 import DevicesIcon from '@mui/icons-material/Devices'
 import PersonIcon from '@mui/icons-material/Person'
-import { AppBar } from '@mui/material'
+import { AppBar, Button } from '@mui/material'
+import LogoutIcon from '@mui/icons-material/Logout'
 // React Router
 import { useLocation, useNavigate } from 'react-router-dom'
 
@@ -33,16 +34,13 @@ const ResponsiveDrawer = props => {
   const location = useLocation()
   const navigate = useNavigate()
 
-  const [userName, setUserName] = React.useState(null)
-  React.useEffect(() => {
-    const currentUserName = localStorage.getItem('user-name')
-    if (currentUserName) {
-      setUserName(currentUserName)
-    }
-  }, [])
-
   const handleDrawerToggle = () => {
     setMobileOpen(!mobileOpen)
+  }
+
+  const logout = () => {
+    localStorage.removeItem('token')
+    navigate('/')
   }
 
   if (location.pathname === '/') {
@@ -72,8 +70,6 @@ const ResponsiveDrawer = props => {
           <div style={{ display: 'flex', justifyContent: 'center' }}>
             <PersonIcon sx={{ fontSize: 90 }} />
           </div>
-          {userName &&
-            <Typography>{userName}</Typography>}
         </div>
       </div>
       <Divider />
@@ -91,6 +87,23 @@ const ResponsiveDrawer = props => {
             </ListItem>
           )
         })}
+      </List>
+      <Divider />
+      <List
+        style={{
+          display: 'flex',
+          flexDirection: 'column',
+          alignItems: 'center',
+          justifyContent: 'flex-end',
+          height: 450
+        }}
+      >
+        <ListItem>
+          <Button onClick={logout} fullWidth variant='outlined'>
+            <ListItemIcon style={{ minWidth: 0, color: '#1976d2' }}><LogoutIcon /></ListItemIcon>
+            <ListItemText primary='Cerrar sesión' />
+          </Button>
+        </ListItem>
       </List>
     </div>
   )
