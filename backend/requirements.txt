@@ -14,6 +14,6 @@ PyJWT==1.7.1
 python-dotenv==0.18.0
 six==1.16.0
 SQLAlchemy==1.4.21
-starlette==0.14.2
+starlette==0.25.0
 typing-extensions==3.10.0.0
 Werkzeug==2.0.1
